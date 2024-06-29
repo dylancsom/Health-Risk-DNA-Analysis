@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cancer Associated SNPs Found</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('send_css') }}">
+
+
+</head>
+<body>
+    <h1>Cancer Associated SNPs Found</h1>
+    {% if matches %}
+    <table>
+        <tr>
+            <th>rsid</th>
+            <th>alleles</th>
+            <th>cancer</th>
+            <th>risk association</th>
+        </tr>
+        {% for match in matches %}
+        <tr>
+            <td>{{ match[0] }}</td>
+            <td>{{ match[1] }}</td>
+            <td>{{ match[2] }}</td>
+            <td>
+                <span class="risk-association {% if match[3][0]
+                     == '-' or 'Lower' in match[3] or 'Slightly Lower'
+                      in match[3] or 'Very Slightly Lower' in match[3] %}
+                      green{% elif match[3][0] == '+' or 'Higher' in match[3]
+                       or 'Slightly Higher' in match[3] or 'Very Slightly Higher'
+                        in match[3] %}red{% else %}grey{% endif %}">{{ match[3] }}</span>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div id="left_container" style="float:left; width: 30%; background-color: #ccc; margin-top:15px; padding: 10px">
+    
+        <h2>Need to knows</h2>
+        
+        <div class="content">
+            <p>This is NOT a diagnostic tool. Having these SNPs in your DNA
+            does NOT mean you express them. If you have any medical concerns,
+            consult a licensed physician.</p>
+            <p>This database currently consists of 206 researched SNPs found to have
+            statistical significance in at least one peer reviewed study.</p>
+            <p>Information for these SNPs can be found through websites such as SNPedia.com
+            pubmed.ncbi.nlm.nih.gov.</p>
+        </div>
+    
+    </div>
+
+    {% else %}
+    <p>No matches found</p>
+    {% endif %}
+</body>
+</html>
